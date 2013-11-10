@@ -8,7 +8,6 @@ require 'time'
         @Resultslocation = "C:/Results"
         @logFileName = @Resultslocation+"TestResults_"+(Time.new.strftime "%H_%M_%S")+".xml"
         
-        #FileUtils.mkdir_p(File.dirname(@logFileName))
         def self.getResultLocation()
             puts  "Find results at: "+@logFileName
         end        
@@ -18,7 +17,6 @@ require 'time'
                 location = File.expand_path(File.dirname(__FILE__)+"/../conf.rb")
                 require location
                 configValues = getLogConfiguration()
-                puts configValues[:resultFileLocation]
                 @logFileName = configValues[:resultFileLocation]+"/TestResults_"+(Time.new.strftime "%H_%M_%S")+".xml"
                 puts "Loading results location from default 'config.rb'"
                 Log.getResultLocation
@@ -212,7 +210,7 @@ require 'time'
             log.add_child(error)
             log = doc.at_xpath(Log.getCurrentNode+"/error[last()]")
     
-            timeN = Nokogiri::XML::Node.new("Time", doc)
+            timeN = Nokogiri::XML::Node.new("time", doc)
             timeN.content=Time.now.iso8601(3)
             log.add_child(timeN)
     
